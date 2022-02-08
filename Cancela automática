@@ -1,0 +1,65 @@
+// Nome:Lucas Wenck Martins Ribeiro
+
+#include <Servo.h>
+
+const byte ledVermelho = 13;
+const byte ledVerde = 12;
+const byte buzzer = 8;
+const byte sensorDistancia = 4;
+
+Servo cancela;
+
+int i;
+
+unsigned long obj;
+
+int i2;
+
+void setup()
+{
+  cancela.attach(7);
+  Serial.begin(9600);
+
+  pinMode(ledVermelho, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop()
+{
+  cancela.write(0);
+  digitalWrite(ledVermelho, HIGH);
+  digitalWrite(ledVerde, LOW);
+  delay(1000);
+  pinMode(sensorDistancia, OUTPUT);
+  digitalWrite(sensorDistancia, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(sensorDistancia, LOW);
+  pinMode(sensorDistancia, INPUT);
+  obj = 0.01723 * pulseIn(sensorDistancia, HIGH);
+  delay(100);
+  if(obj < 200 && obj > 100){
+  for (i = 0; i < 5; i++) {
+    digitalWrite(ledVermelho, LOW);
+    tone(buzzer, 523, 150);
+    delay(600);
+    digitalWrite(ledVermelho, HIGH);
+    digitalWrite(ledVermelho, LOW);
+  	}
+  	cancela.write(90);
+  	delay(650);
+  	digitalWrite(ledVermelho, LOW);
+  	digitalWrite(ledVerde, HIGH);
+    delay(5000);
+  	digitalWrite(ledVerde, LOW);
+  for (i2 = 0; i2 < 5; i2++) {
+    	digitalWrite(ledVermelho, LOW);
+    	tone(buzzer, 523, 150);
+    	delay(600);
+    	digitalWrite(ledVermelho, HIGH);
+  	}
+  	cancela.write(0);
+  	digitalWrite(ledVermelho, HIGH);
+    delay(1000);
+  }
+}
